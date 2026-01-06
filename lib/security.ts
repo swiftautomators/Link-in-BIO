@@ -1,10 +1,18 @@
 export function sanitizeUrl(url: string | undefined): string {
     if (!url) return "#";
 
-    // Basic protection against javascript: protocols
     const sanitized = url.trim();
-    if (sanitized.toLowerCase().startsWith("javascript:")) {
-        return "#";
+    
+    // Extract scheme (text before first :)
+    const schemeMatch = sanitized.match(/^([^:/?#]+):/);
+    if (schemeMatch) {
+        const scheme = schemeMatch[1].toLowerCase();
+        const blacklist = ["javascript", "data", "vbscript", "file"];
+        
+        if (blacklist.includes(scheme)) {
+            console.warn(`Blocked dangerous URL scheme: ${scheme}`);
+            return "#";
+        }
     }
 
     return sanitized;

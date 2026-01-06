@@ -10,7 +10,7 @@ High-converting product recommendations and exclusive links from Maddie, powered
 
 ## Run Locally
 
-**Prerequisites:** Node.js 18+
+**Prerequisites:** Node.js 18.17+
 
 1. **Install dependencies:**
    ```bash
@@ -33,5 +33,5 @@ High-converting product recommendations and exclusive links from Maddie, powered
 ## Design Stack
 - Next.js 14 (App Router)
 - Tailwind CSS + Framer Motion
-- React Query + Zustand
+- React Query
 - Lucide Icons

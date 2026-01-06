@@ -13,12 +13,20 @@ const TestimonialCarousel: React.FC<TestimonialCarouselProps> = ({ testimonials,
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
-    if (testimonials.length === 0) return;
+    if (testimonials.length === 0) {
+      setIndex(0);
+      return;
+    }
+    
+    // Reset index when testimonials change to avoid out-of-bounds or stale content
+    setIndex(0);
+
     const timer = setInterval(() => {
       setIndex((prev) => (prev + 1) % testimonials.length);
     }, 5000);
+    
     return () => clearInterval(timer);
-  }, [testimonials.length]);
+  }, [testimonials]); // Depend on the array reference to catch content changes
 
   if (isLoading) {
     return (
