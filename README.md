@@ -1,20 +1,37 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Maddie's Link in Bio PWA
 
-# Run and deploy your AI Studio app
+High-converting product recommendations and exclusive links from Maddie, powered by Next.js 14 and Airtable.
 
-This contains everything you need to run your app locally.
-
-View your app in AI Studio: https://ai.studio/apps/drive/1mFqVANxW7tMEpuUfiJVRknuj5X8sJJm-
+## Features
+- **TikTok-Native Design**: Optimized for mobile (393px-430px).
+- **Airtable Integration**: Real-time content managed directly in Airtable.
+- **PWA Ready**: Installable on iOS and Android.
+- **Fast & Secure**: ISR caching (60s), React Query, and security-hardened links.
 
 ## Run Locally
 
-**Prerequisites:**  Node.js
+**Prerequisites:** Node.js 18+
 
+1. **Install dependencies:**
+   ```bash
+   npm install
+   ```
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+2. **Configure Environment:**
+   Create a `.env.local` file based on `.env.example` and add your Airtable credentials.
+
+3. **Development Mode:**
+   ```bash
+   npm run dev
+   ```
+
+4. **Production Build:**
+   ```bash
+   npm run build
+   ```
+
+## Design Stack
+- Next.js 14 (App Router)
+- Tailwind CSS + Framer Motion
+- React Query + Zustand
+- Lucide Icons

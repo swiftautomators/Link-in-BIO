@@ -1,24 +1,48 @@
+'use client';
 
 import React, { useState, useEffect } from 'react';
-import { TESTIMONIALS } from '../constants';
+import { Testimonial } from '@/types';
+import { Skeleton } from './ui/Skeleton';
 
-const TestimonialCarousel: React.FC = () => {
+interface TestimonialCarouselProps {
+  testimonials: Testimonial[];
+  isLoading?: boolean;
+}
+
+const TestimonialCarousel: React.FC<TestimonialCarouselProps> = ({ testimonials, isLoading }) => {
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
+    if (testimonials.length === 0) return;
     const timer = setInterval(() => {
-      setIndex((prev) => (prev + 1) % TESTIMONIALS.length);
+      setIndex((prev) => (prev + 1) % testimonials.length);
     }, 5000);
     return () => clearInterval(timer);
-  }, []);
+  }, [testimonials.length]);
 
-  const t = TESTIMONIALS[index];
+  if (isLoading) {
+    return (
+      <div className="bg-white/5 border border-white/10 rounded-3xl p-6">
+        <Skeleton className="h-3 w-20 mb-3" />
+        <Skeleton className="h-4 w-full mb-2" />
+        <Skeleton className="h-4 w-2/3 mb-4" />
+        <div className="flex items-center gap-3">
+          <Skeleton className="w-8 h-8 rounded-full" />
+          <Skeleton className="h-3 w-24" />
+        </div>
+      </div>
+    );
+  }
+
+  if (testimonials.length === 0) return null;
+
+  const t = testimonials[index];
 
   return (
     <div className="bg-gradient-to-br from-[#FE2C55]/10 to-transparent border border-[#FE2C55]/20 rounded-3xl p-6 relative overflow-hidden">
       {/* Quote Mark */}
       <div className="absolute top-[-20px] left-[-10px] text-8xl text-white/5 font-serif select-none">“</div>
-      
+
       <div className="relative z-10">
         <div className="flex gap-1 mb-3">
           {[...Array(t.rating)].map((_, i) => (
@@ -35,10 +59,10 @@ const TestimonialCarousel: React.FC = () => {
       </div>
 
       <div className="flex justify-center gap-1.5 mt-4">
-        {TESTIMONIALS.map((_, i) => (
-          <div 
-            key={i} 
-            className={`h-1 rounded-full transition-all ${i === index ? 'w-6 bg-[#FE2C55]' : 'w-2 bg-white/20'}`} 
+        {testimonials.map((_, i) => (
+          <div
+            key={i}
+            className={`h-1 rounded-full transition-all ${i === index ? 'w-6 bg-[#FE2C55]' : 'w-2 bg-white/20'}`}
           />
         ))}
       </div>
