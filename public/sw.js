@@ -2,7 +2,6 @@ const CACHE_NAME = 'maddie-link-in-bio-v1';
 const ASSETS_TO_CACHE = [
     '/',
     '/manifest.json',
-    '/globals.css',
 ];
 
 self.addEventListener('install', (event) => {
@@ -10,6 +9,18 @@ self.addEventListener('install', (event) => {
         caches.open(CACHE_NAME).then((cache) => {
             return cache.addAll(ASSETS_TO_CACHE);
         })
+    );
+});
+
+self.addEventListener('activate', (event) => {
+    event.waitUntil(
+        caches.keys().then((cacheNames) => {
+            return Promise.all(
+                cacheNames
+                    .filter((name) => name !== CACHE_NAME)
+                    .map((name) => caches.delete(name))
+            );
+        }).then(() => self.clients.claim())
     );
 });
 

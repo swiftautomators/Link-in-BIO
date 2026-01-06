@@ -10,19 +10,31 @@ const Notification: React.FC = () => {
   const [visible, setVisible] = useState(false);
   const [data, setData] = useState({ name: '', product: '' });
 
+  const isMounted = React.useRef(true);
+  const hideTimerRef = React.useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
+
   const trigger = useCallback(() => {
     const name = names[Math.floor(Math.random() * names.length)];
     const product = productsList[Math.floor(Math.random() * productsList.length)];
+    
+    if (!isMounted.current) return;
+    
     setData({ name, product });
     setVisible(true);
 
-    const timer = setTimeout(() => setVisible(false), 5000);
-    return () => clearTimeout(timer);
+    if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
+    hideTimerRef.current = setTimeout(() => {
+      if (isMounted.current) setVisible(false);
+    }, 5000);
   }, []);
 
   useEffect(() => {
-    let hideTimer: NodeJS.Timeout;
-
     const initialDelay = setTimeout(() => {
       trigger();
     }, 8000);
@@ -34,7 +46,7 @@ const Notification: React.FC = () => {
     return () => {
       clearTimeout(initialDelay);
       clearInterval(interval);
-      if (hideTimer) clearTimeout(hideTimer);
+      if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
     };
   }, [trigger]);
 

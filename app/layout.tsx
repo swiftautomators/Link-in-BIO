@@ -21,7 +21,8 @@ export const viewport: Viewport = {
     themeColor: "#FE2C55",
     width: "device-width",
     initialScale: 1,
-    maximumScale: 1,
+    // We allow pinch-to-zoom (omitting maximumScale: 1) to ensure the PWA 
+    // meets accessibility standards for vision-impaired users.
 };
 
 export default function RootLayout({
